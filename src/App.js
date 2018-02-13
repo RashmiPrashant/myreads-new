@@ -1,6 +1,6 @@
 import React from 'react'
 import * as BooksAPI from './BooksAPI'
-//import SearchBook from './SearchBook'
+import SearchBook from './SearchBook'
 import BookShelf from './BookShelf'
 import './App.css'
 
@@ -21,6 +21,7 @@ componentDidMount(){
     return (
       <div className="app">
         <BookShelf books={this.state.books}/>
+        <SearchBook books={this.state.books}/>
       </div>
     )
   }
