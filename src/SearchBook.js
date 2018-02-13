@@ -1,18 +1,19 @@
 import React from 'react'
 import escapeRegExp from 'escape-string-regexp'
 //import sortBy from 'sort-by'
+import { Link } from 'react-router-dom'
 import Book from './Book'
 
 class SearchBook extends React.Component {
     state = {
         query: ''
       }
-    
-      
+
     updateQuery = (query) => {
         this.setState({ query: query.trim() })
       }
-    render(){
+    
+      render(){
         let showingBooks
         if (this.state.query) {
           const match = new RegExp(escapeRegExp(this.state.query), 'i')
@@ -23,13 +24,14 @@ class SearchBook extends React.Component {
     
         //showingBooks.sort(sortBy('title'))
 
-        
         return(
             <div className="search-books">
                 <div className="search-books-bar">
-                <a className="close-search">Close</a>
+                <Link
+                    to='/' 
+                    className="close-search">
+                </Link>
                 <div className="search-books-input-wrapper">
-                {}
                 <input 
                 type="text" 
                 placeholder="Search by title or author"
