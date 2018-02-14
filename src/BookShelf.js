@@ -1,30 +1,27 @@
 import React, { Component } from 'react';
-//import SearchBook from './SearchBook'
 import { Link } from 'react-router-dom'
-import Book from './Book'
+import Shelf from './Shelf'
+
 class Bookshelf extends Component {
 
     render(){
+      const { books, shelves } = this.props
+      console.log("prop" , shelves)
         return(
           <div className="list-books">
             <div className="list-books-title">
               <h1>MyReads</h1>
             </div>
             <div className="list-books-content">
-              <div>
-                <div className="bookshelf">
-                  <h2 className="bookshelf-title">Want to Read</h2>
-                  <div className="bookshelf-books">
-                    <ol className="books-grid">
-                    {this.props.books.map((book) => (
-                      <li key={book.id}>
-                        <Book book = {book}/>
-                      </li>
-                    ))}
-                    </ol>
-                  </div>
-                </div>
-              </div>
+            {shelves.map(shelve => (
+              <div key={shelve.status}>
+                <Shelf
+                  title={shelve.title}
+                  status={shelve.status}
+                  books={books}
+                />
+          </div>
+        ))}
             </div>
             <div className="open-search">
             <Link
