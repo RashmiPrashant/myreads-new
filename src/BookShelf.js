@@ -3,11 +3,9 @@ import { Link } from 'react-router-dom'
 import Shelf from './Shelf'
 
 class Bookshelf extends Component {
-
     render(){
-      const { books, shelves } = this.props
-      console.log("prop" , shelves)
-        return(
+      const { shelves, books, updateBookShelf } = this.props
+      return(
           <div className="list-books">
             <div className="list-books-title">
               <h1>MyReads</h1>
@@ -19,9 +17,10 @@ class Bookshelf extends Component {
                   title={shelve.title}
                   status={shelve.status}
                   books={books}
+                  updateBookShelf={updateBookShelf}
                 />
-          </div>
-        ))}
+              </div>
+            ))}
             </div>
             <div className="open-search">
             <Link
@@ -29,12 +28,10 @@ class Bookshelf extends Component {
                     className="close-search" 
                     >
             </Link>
-              
+  
             </div>
           </div>
         )
-
-    
     }
 
 }
