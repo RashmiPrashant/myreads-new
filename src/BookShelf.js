@@ -28,7 +28,6 @@ class Bookshelf extends Component {
                     className="close-search" 
                     >
             </Link>
-  
             </div>
           </div>
         )

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
+import ErrorBoundary from './ErrorBoundary'
 import SearchBook from './SearchBook'
 import BookShelf from './BookShelf'
 import './App.css'
@@ -54,8 +55,9 @@ class App extends React.Component {
               )}/>
             
             <Route exact path='/search' render={() => (
-              <SearchBook 
-                books={books}/>
+              <ErrorBoundary><SearchBook 
+                books={books}
+                updateBookShelf={this.updateBookShelf}/></ErrorBoundary>
               )}/>    
         </div>
       )

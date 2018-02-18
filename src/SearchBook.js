@@ -1,57 +1,73 @@
 import React from 'react'
-import escapeRegExp from 'escape-string-regexp'
-//import sortBy from 'sort-by'
 import { Link } from 'react-router-dom'
+import * as BooksAPI from './BooksAPI'
 import Book from './Book'
 
 class SearchBook extends React.Component {
     state = {
+        requestedBooks: [],
         query: ''
       }
 
-    updateQuery = (query) => {
-        this.setState({ query: query.trim() })
+      searchBook = event => {
+        this.query = event.target.value
+        let booksInShelf = this.props.books
+    
+        if (this.query) {
+          BooksAPI.search(this.query).then(response => {
+              this.setState({
+                requestedBooks: response.map(result => {
+                  let bookOwned = booksInShelf.find(b => b.id === result.id)
+                  return bookOwned || result
+                })
+              })
+          })
+        } else {
+          this.setState({
+            requestedBooks: []
+          })
+        }
       }
     
-      render(){
-        let showingBooks
-        if (this.state.query) {
-          const match = new RegExp(escapeRegExp(this.state.query), 'i')
-          showingBooks = this.props.books.filter((book) => match.test(book.title || book.authors))
-        } else {
-            showingBooks = this.props.books
-        }
-    
-        //showingBooks.sort(sortBy('title'))
-
+      render() {
+        const { requestedBooks } = this.state
         return(
-            <div className="search-books">
-                <div className="search-books-bar">
-                <Link
-                    to='/' 
-                    className="close-search">
-                </Link>
-                <div className="search-books-input-wrapper">
-                <input 
-                type="text" 
-                placeholder="Search by title or author"
-                value={this.state.query}
-                onChange={(event) => this.updateQuery(event.target.value)}/>
-                </div>
+        <div className="search-books">
+            <div className="search-books-bar">
+            <Link
+                to='/'
+                className="close-search">
+            </Link>
+            <div className="search-books-input-wrapper">
+                <input
+                  type="text"
+                  placeholder="Search by title or author"
+                  onChange={this.searchBook}/>
             </div>
-            <div className="search-books-results">
+        </div>
+        <div className="search-books-results">
+            {this.query !== '' && (
                 <ol className="books-grid">
-                {showingBooks.map((book) => (
+                {requestedBooks.map(book => (
                     <li key={book.id}>
-                    <Book book = {book}/>
-                  </li>
+                        <Book
+                          book={book}
+                          updateBookShelf={this.props.updateBookShelf}
+                        />
+                    </li>
                     ))}
                 </ol>
+            )}
+            
+            {this.query !== '' && requestedBooks.length !== 0 && (
+                <ol className="books-grid">
+                    <i>{requestedBooks.length} books found!</i>
+                </ol>
+            )}
             </div>
           </div>
-        )}
-    
-
-}
+        )
+      }
+    }    
 
 export default SearchBook

@@ -172,3 +172,14 @@ body, .app {
   text-align: center;
   font-size: 0.8em;
 }
+
+/* Error Message*/
+
+.error-message{
+  color: #999;
+  text-align: center;
+  width: 100%;
+  padding: 15px 10px;
+  font-size: 1.5em;
+
+}
