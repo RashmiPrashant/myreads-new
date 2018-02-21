@@ -14,15 +14,24 @@ class SearchBook extends React.Component {
         let booksInShelf = this.props.books
     
         if (this.query) {
+         
           BooksAPI.search(this.query).then(response => {
+            if(response.length !== undefined){
               this.setState({
                 requestedBooks: response.map(result => {
-                  let bookOwned = booksInShelf.find(b => b.id === result.id)
+                    let bookOwned = booksInShelf.find(b => b.id === result.id)
                   return bookOwned || result
                 })
               })
+              
+            } else {
+              console.log('query typed',response )
+              
+            }
+              
           })
         } else {
+          console.log('no query')
           this.setState({
             requestedBooks: []
           })
