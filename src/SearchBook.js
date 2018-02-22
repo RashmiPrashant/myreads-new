@@ -6,40 +6,45 @@ import Book from './Book'
 class SearchBook extends React.Component {
     state = {
         requestedBooks: [],
-        query: ''
-      }
-
+        query: '',
+        bookNotFound : null
+      };
       searchBook = event => {
         this.query = event.target.value
         let booksInShelf = this.props.books
     
         if (this.query) {
-         
           BooksAPI.search(this.query).then(response => {
             if(response.length !== undefined){
+              
               this.setState({
+                bookNotFound : true,
                 requestedBooks: response.map(result => {
                     let bookOwned = booksInShelf.find(b => b.id === result.id)
                   return bookOwned || result
                 })
               })
-              
             } else {
-              console.log('query typed',response )
+              this.setState({
+                bookNotFound : false
+              })
               
             }
               
           })
         } else {
-          console.log('no query')
           this.setState({
-            requestedBooks: []
+            requestedBooks: [],
+            bookNotFound : true
           })
         }
       }
-    
+
+
+     
       render() {
-        const { requestedBooks } = this.state
+        const { requestedBooks, bookNotFound } = this.state
+        console.log(requestedBooks)
         return(
         <div className="search-books">
             <div className="search-books-bar">
@@ -72,6 +77,10 @@ class SearchBook extends React.Component {
                 <ol className="books-grid">
                     <i>{requestedBooks.length} books found!</i>
                 </ol>
+            )}
+            {(bookNotFound === false &&(
+                <h1 className="error-message">Can not find {this.query} . Try searching another one !</h1>
+              )
             )}
             </div>
           </div>
