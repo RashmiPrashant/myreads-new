@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import {DebounceInput} from 'react-debounce-input';
 import * as BooksAPI from './BooksAPI'
 import Book from './Book'
 
@@ -16,7 +17,6 @@ class SearchBook extends React.Component {
         if (this.query) {
           BooksAPI.search(this.query).then(response => {
             if(response.length !== undefined){
-              
               this.setState({
                 bookNotFound : true,
                 requestedBooks: response.map(result => {
@@ -39,12 +39,9 @@ class SearchBook extends React.Component {
           })
         }
       }
-
-
      
       render() {
         const { requestedBooks, bookNotFound } = this.state
-        console.log(requestedBooks)
         return(
         <div className="search-books">
             <div className="search-books-bar">
@@ -53,7 +50,8 @@ class SearchBook extends React.Component {
                 className="close-search">
             </Link>
             <div className="search-books-input-wrapper">
-                <input
+            <DebounceInput
+                  debounceTimeout={500}
                   type="text"
                   placeholder="Search by title or author"
                   onChange={this.searchBook}/>
@@ -79,7 +77,7 @@ class SearchBook extends React.Component {
                 </ol>
             )}
             {(bookNotFound === false &&(
-                <h1 className="error-message">Can not find {this.query} . Try searching another one !</h1>
+                <h1 className="error-message">Can not find "{this.query}" . Try searching another one !</h1>
               )
             )}
             </div>

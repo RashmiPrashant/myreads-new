@@ -1,7 +1,6 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
-import ErrorBoundary from './ErrorBoundary'
 import SearchBook from './SearchBook'
 import BookShelf from './BookShelf'
 import './App.css'
@@ -35,7 +34,8 @@ class App extends React.Component {
 
   updateBookShelf = (book, shelf) => {
     BooksAPI.update(book, shelf).then(() => {
-      BooksAPI.getAll().then(books => this.setState({books:books}))
+      BooksAPI.getAll().then(books => this.setState({books}))
+      
     })
   }
 
@@ -55,9 +55,9 @@ class App extends React.Component {
               )}/>
             
             <Route exact path='/search' render={() => (
-              <ErrorBoundary><SearchBook 
+              <SearchBook 
                 books={books}
-                updateBookShelf={this.updateBookShelf}/></ErrorBoundary>
+                updateBookShelf={this.updateBookShelf}/>
               )}/>    
         </div>
       )
