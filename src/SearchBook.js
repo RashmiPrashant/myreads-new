@@ -51,7 +51,7 @@ class SearchBook extends React.Component {
             </Link>
             <div className="search-books-input-wrapper">
             <DebounceInput
-                  debounceTimeout={500}
+                  debounceTimeout={400}
                   type="text"
                   placeholder="Search by title or author"
                   onChange={this.searchBook}/>
